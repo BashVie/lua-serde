@@ -9,6 +9,12 @@ local my_resource = {
     my_table = {
         my_data = 'Some Text'
     },
+    my_list = {
+        10,
+        20,
+        30,
+        40
+    },
     test_nil = nil,
     attack = function(self, enemy)
         local dmg = 0
@@ -29,7 +35,12 @@ print('Weapon name: ' .. res.weapon_name)
 print('Weapon damage: ' .. res.damage)
 print('Is ranged? ' .. tostring(res.is_ranged))
 print('Nested tables: ' .. res.my_table.my_data)
+print('Testing Array: ' .. res.my_list[3])
 print('Testing nil: ' .. tostring(res.test_nil))
+
+for k, v in pairs(res.my_list) do
+    print(k, v)
+end
 
 local nme = {
     name = 'Goblin',

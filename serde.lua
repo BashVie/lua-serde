@@ -2,6 +2,16 @@
 
 local m = {}
 
+local function try_parse_num(str)
+    local num = tonumber(str)
+
+    if num == nil then
+        return nil
+    else
+        return num
+    end
+end
+
 local function unpack_tagged_pair(item, str, index)
     local tag, k, v, i = string.unpack(item, str, index)
     if tag == '__FUNCTION__' then
@@ -10,6 +20,10 @@ local function unpack_tagged_pair(item, str, index)
         v = m.de(v)
     else
         -- pass, no-op
+    end
+
+    if try_parse_num(k) ~= nil then
+        k = try_parse_num(k)
     end
 
     return k, v, i + 1
@@ -26,6 +40,10 @@ local function unpack_pair(item, str, index)
         else
             v = nil
         end
+    end
+
+    if try_parse_num(k) ~= nil then
+        k = try_parse_num(k)
     end
 
     return k, v, i + 1
