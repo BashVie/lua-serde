@@ -2,7 +2,7 @@
 
 local m = {}
 
-local function unpack_tagged(item, str, index)
+local function unpack_tagged_pair(item, str, index)
     local tag, k, v, i = string.unpack(item, str, index)
     if tag == '__FUNCTION__' then
         v = load(v)
@@ -70,7 +70,7 @@ m.de = function(str)
 
     for item in string.gmatch(encodeFormat, '([^x]+)x') do
         if #item == 3 then
-            local k, v, i = unpack_tagged(item, str, index)
+            local k, v, i = unpack_tagged_pair(item, str, index)
             unpackedData[k] = v
             index = i
         else
