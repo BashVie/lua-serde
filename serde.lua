@@ -22,11 +22,12 @@ local function unpack_tagged_pair(item, str, index)
         -- pass, no-op
     end
 
+    -- if the key can be parsed to a number, it is an integer index
     if try_parse_num(k) ~= nil then
         k = try_parse_num(k)
     end
 
-    return k, v, i + 1
+    return k, v, i + 1 -- all terms are padded with 1 byte, so we skip that
 end
 
 local function unpack_pair(item, str, index)
@@ -49,6 +50,10 @@ local function unpack_pair(item, str, index)
     return k, v, i + 1
 end
 
+---Serializes a table and returns a packed string. Supported member types for the table are:
+---string, number, boolean, nil, table, and function
+---@param tbl any
+---@return string
 m.ser = function(tbl)
     local packedData = ''
     local encodeFormat = ''
@@ -79,6 +84,9 @@ m.ser = function(tbl)
     return packedData
 end
 
+---Deserializes a string packed by ser and returns the unpacked table.
+---@param str (string)
+---@return table
 m.de = function(str)
     local unpackedData = {}
     local index = 1
